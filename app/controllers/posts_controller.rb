@@ -8,9 +8,15 @@ class PostsController < ApplicationController
   end
 
   def update
-    @post.update(post_params)
+    @post.assign_attributes(post_params)
 
-    redirect_to post_path(@post)
+    if @post.save
+      redirect_to post_path(@post)
+    else 
+      @errors = @post.errors.full_messages
+      render :edit
+    end
+    
   end
 
   private
